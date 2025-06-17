@@ -1,3 +1,4 @@
+import { UserModel } from "../../data/mongodb";
 import {
   AuthDatasource,
   CustomError,
@@ -11,10 +12,23 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
     try {
       // 1. Verificar email
-      // 2. Hash de contraseña
-      // 3. Mapear la respuesta a nuestra entidad
+      const exists = await UserModel.findOne({ email: email });
+      if (exists) throw CustomError.badRequest("User already exists");
 
-      return new UserEntity("1", name, email, password, ["ADMIN_ROLE"]);
+      // 2. Creamos el usuario
+      const user = await UserModel.create({
+        name: name,
+        email: email,
+        password: password,
+      });
+
+      // 3. Hash de contraseña
+
+      // 4. Mapear la respuesta a nuestra entidad
+      await user.save();
+
+      // todo: falta mapper
+      return new UserEntity(user.id, name, email, password, user.role);
     } catch (error) {
       if (error instanceof CustomError) {
         throw error;
