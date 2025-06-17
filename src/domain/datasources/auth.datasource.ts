@@ -1,0 +1,11 @@
+//Reglas de negocio del auth
+
+import { RegisterUserDto } from "../dtos/auth/register-user.dto";
+import { UserEntity } from "../entities/user.entity";
+
+export abstract class AuthDatasource {
+  // Definimos reglas
+  //   abstract login(): Promise<UserEntity>;
+
+  abstract register(registerUserDto: RegisterUserDto): Promise<UserEntity>;
+}
