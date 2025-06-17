@@ -7,7 +7,17 @@ import {
   UserEntity,
 } from "../../domain";
 
+// Creacion de tipos para quitar dependencias ocultas
+type HashFunction = (password: string) => string;
+type CompareFunction = (password: string, hashed: string) => boolean;
+
 export class AuthDatasourceImpl implements AuthDatasource {
+  // Inyeccion de dependencias
+  constructor(
+    private readonly hashPassword: HashFunction = BcryptAdapter.hash,
+    private readonly comparePassword: CompareFunction = BcryptAdapter.compare
+  ) {}
+
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
     const { name, email, password } = registerUserDto;
 
@@ -20,7 +30,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       const user = await UserModel.create({
         name: name,
         email: email,
-        password: BcryptAdapter.hash(password),
+        password: this.hashPassword(password),
       });
 
       // 3. Mapear la respuesta a nuestra entidad
