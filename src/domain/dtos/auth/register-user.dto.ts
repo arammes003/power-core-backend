@@ -21,6 +21,6 @@ export class RegisterUserDto {
         "Password must be 6–15 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.",
       ];
 
-    return [undefined, new RegisterUserDto(name, email.toLoweCase(), password)];
+    return [undefined, new RegisterUserDto(name, email, password)];
   }
 }
