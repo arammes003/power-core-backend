@@ -17,6 +17,10 @@ export class Server {
   }
 
   async start() {
+    // Middleware para serializar los datos
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true })); //x-www-form-urlencoded
+
     // Usamos las rutas definidas
     this.app.use(this.routes);
 
