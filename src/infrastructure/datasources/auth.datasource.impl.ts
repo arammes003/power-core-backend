@@ -6,6 +6,7 @@ import {
   RegisterUserDto,
   UserEntity,
 } from "../../domain";
+import { UserMapper } from "../mappers/user.mapper";
 
 // Creacion de tipos para quitar dependencias ocultas
 type HashFunction = (password: string) => string;
@@ -37,7 +38,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       await user.save();
 
       // todo: falta mapper
-      return new UserEntity(user.id, name, email, user.password, user.role);
+      return UserMapper.userEntityFromObject(user);
     } catch (error) {
       if (error instanceof CustomError) {
         throw error;
