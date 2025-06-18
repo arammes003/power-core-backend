@@ -1,6 +1,6 @@
+// Fichero que transforma los datos a nuestra entidad
 import { CustomError, UserEntity } from "../../domain";
 
-// Fichero que transforma los datos a nuestra entidad
 export class UserMapper {
   static userEntityFromObject(object: { [key: string]: any }) {
     // Desestructuramos el objeto
