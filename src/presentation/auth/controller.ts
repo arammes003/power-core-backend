@@ -1,6 +1,7 @@
 // Fichero que contiene todas las funciones de autenticacion del usuario
 import e, { Request, Response } from "express";
 import { AuthRepository, CustomError, RegisterUserDto } from "../../domain";
+import { JwtAdapter } from "../../config";
 
 export class AuthController {
   // Inyeccion de dependencias
@@ -20,7 +21,12 @@ export class AuthController {
     else
       this.authRepository
         .register(registerUserDto!)
-        .then((user) => res.json(user))
+        .then(async (user) => {
+          res.json({
+            user,
+            token: await JwtAdapter.generateToken({ email: user.email }),
+          });
+        })
         .catch((error) => this.handleError(error, res));
   };
 

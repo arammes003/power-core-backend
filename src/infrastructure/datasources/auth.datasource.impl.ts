@@ -1,4 +1,4 @@
-import { BcryptAdapter } from "../../config/bcrypt";
+import { BcryptAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import {
   AuthDatasource,
