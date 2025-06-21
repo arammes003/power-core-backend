@@ -22,6 +22,9 @@ const userSchema = new Schema({
     default: ["USER_ROLE"],
     enum: ["USER_ROLE", "ATHLETE_ROLE", "COACH_ROLE", "CLUB_ROLE", "ADMIN_PTS"],
   },
+  createdAt: {
+    type: Date,
+  },
   avatar: {
     type: String,
   },

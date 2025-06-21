@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import cors from "cors";
 
 interface Options {
   port?: number;
@@ -20,6 +21,8 @@ export class Server {
     // Middleware para serializar los datos
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true })); //x-www-form-urlencoded
+
+    this.app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 
     // Usamos las rutas definidas
     this.app.use(this.routes);

@@ -53,6 +53,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         name: name,
         email: email,
         password: this.hashPassword(password),
+        createdAt: new Date(),
       });
 
       // 3. Mapear la respuesta a nuestra entidad
