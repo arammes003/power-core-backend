@@ -28,7 +28,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       if (!user) throw CustomError.badRequest("Invalid credentials");
 
       const isMatching = this.comparePassword(password, user.password);
-      if (!isMatching) throw CustomError.badRequest("Invalid credentials pass");
+      if (!isMatching) throw CustomError.badRequest("Invalid credentials");
 
       return UserMapper.userEntityFromObject(user);
     } catch (error) {
@@ -41,7 +41,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-    const { name, email, password } = registerUserDto;
+    const { name, email, password, avatar } = registerUserDto;
 
     try {
       // 1. Verificar email
@@ -54,6 +54,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         email: email,
         password: this.hashPassword(password),
         createdAt: new Date(),
+        avatar: avatar,
       });
 
       // 3. Mapear la respuesta a nuestra entidad

@@ -25,6 +25,10 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
   },
+  status: {
+    type: Boolean,
+    default: true,
+  },
   avatar: {
     type: String,
   },

@@ -12,6 +12,8 @@ interface UserToken {
     id: string;
     name: string;
     email: string;
+    status: boolean;
+    role: string[];
   };
 }
 
@@ -43,6 +45,8 @@ export class LoginUser implements LoginUserUseCase {
         id: user.id,
         name: user.name,
         email: user.email,
+        status: user.status,
+        role: user.role,
       },
     };
   }
