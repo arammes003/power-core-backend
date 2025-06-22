@@ -37,6 +37,7 @@ export class AuthMiddleware {
       }
 
       // req.body.user = user;
+      res.locals.user = user;
 
       next(); // Da paso a la siguiente funcionalidad
     } catch (error) {

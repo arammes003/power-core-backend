@@ -18,6 +18,12 @@ export class AuthRoutes {
 
     router.get("/", AuthMiddleware.validateJwt, controller.getUsers);
 
+    router.get(
+      "/check-status",
+      AuthMiddleware.validateJwt,
+      controller.checkAuthStatus
+    );
+
     return router;
   }
 }

@@ -1,4 +1,4 @@
-import { BcryptAdapter } from "../../config";
+import { BcryptAdapter, JwtAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import {
   AuthDatasource,
@@ -7,6 +7,7 @@ import {
   RegisterUserDto,
   UserEntity,
 } from "../../domain";
+import { JwtPaylaod } from "../../domain/entities/jwt-payload.interface";
 import { UserMapper } from "../mappers/user.mapper";
 
 // Creacion de tipos para quitar dependencias ocultas
@@ -69,5 +70,20 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
       throw CustomError.internalServer();
     }
+  }
+
+  async checkAuthStatus(
+    user: UserEntity
+  ): Promise<{ user: UserEntity; token: string }> {
+    const token = await this.getJwtToken({ id: user.id });
+    return {
+      user: user,
+      token,
+    };
+  }
+
+  private async getJwtToken(payload: JwtPaylaod): Promise<string> {
+    const token = await JwtAdapter.generateToken(payload);
+    return token ?? ""; // o lanza error si token es null
   }
 }

@@ -7,8 +7,10 @@ import {
   LoginUserDto,
   RegisterUser,
   RegisterUserDto,
+  UserEntity,
 } from "../../domain";
 import { UserModel } from "../../data/mongodb";
+import { CheckAuthStatus } from "../../domain/use-cases/auth/check-auth-status";
 
 export class AuthController {
   // Inyeccion de dependencias
@@ -53,9 +55,19 @@ export class AuthController {
       .then((users) =>
         res.json({
           users,
-          // user: req.body.user,
         })
       )
       .catch(() => res.status(500).json({ error: "Internal Server Error" }));
+  };
+
+  // Metodo encargado de comprobar el estado del token del usuario
+  checkAuthStatus = async (req: Request, res: Response) => {
+    // const user = req.body.user;
+    const user = res.locals.user;
+
+    new CheckAuthStatus(this.authRepository)
+      .execute(user!)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
   };
 }

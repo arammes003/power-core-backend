@@ -16,4 +16,10 @@ export class AuthRepositoryImpl implements AuthRepository {
   register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
     return this.authDatasource.register(registerUserDto);
   }
+
+  async checkAuthStatus(
+    user: UserEntity
+  ): Promise<{ user: UserEntity; token: string }> {
+    return this.authDatasource.checkAuthStatus(user);
+  }
 }
