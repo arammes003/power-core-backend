@@ -8,12 +8,13 @@ export class LoginUserDto {
   static login(object: { [key: string]: any }): [string?, LoginUserDto?] {
     const { email, password } = object;
 
-    if (!email) return ["Missing email"];
-    if (!password) return ["Missing password"];
-    if (!Validators.email.test(email)) return ["Email is not valid"];
+    if (!email) return ["Introduce un correo electrónico"];
+    if (!password) return ["Introduce una contraseña"];
+    if (!Validators.email.test(email))
+      return ["El correo electrónico no es válido"];
     if (!Validators.password.test(password))
       return [
-        "Password must be 6–15 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+        "La contraseña debe tener entre 6 y 15 caracteres e incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
       ];
 
     return [undefined, new LoginUserDto(email.toLowerCase(), password)];

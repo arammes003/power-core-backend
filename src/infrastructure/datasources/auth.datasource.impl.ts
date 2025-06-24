@@ -26,10 +26,15 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
     try {
       const user = await UserModel.findOne({ email: email });
-      if (!user) throw CustomError.badRequest("Invalid credentials");
+      if (!user) throw CustomError.badRequest("Credenciales incorrectas");
 
       const isMatching = this.comparePassword(password, user.password);
-      if (!isMatching) throw CustomError.badRequest("Invalid credentials");
+      if (!isMatching) throw CustomError.badRequest("Credenciales incorrectas");
+
+      if (!user.status)
+        throw CustomError.badRequest(
+          "Cuenta inactiva. Contacta con el soporte"
+        );
 
       return UserMapper.userEntityFromObject(user);
     } catch (error) {
@@ -47,7 +52,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
     try {
       // 1. Verificar email
       const exists = await UserModel.findOne({ email: email });
-      if (exists) throw CustomError.badRequest("User already exists");
+      if (exists) throw CustomError.badRequest("Correo electrónico en uso");
 
       // 2. Creamos el usuario y hash de la contraseña
       const user = await UserModel.create({
