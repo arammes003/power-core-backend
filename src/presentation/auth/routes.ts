@@ -3,6 +3,7 @@ import { Router } from "express";
 import { AuthController } from "./controller";
 import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { upload } from "../../data/multer/upload-file";
 
 export class AuthRoutes {
   static get routes(): Router {
@@ -14,7 +15,11 @@ export class AuthRoutes {
 
     // Definimos las rutas para los metodos de autenticacion
     router.post("/login", controller.loginUser);
-    router.post("/register", controller.registerUser);
+    router.post(
+      "/register",
+      upload.fields([{ name: "avatar", maxCount: 1 }]),
+      controller.registerUser
+    );
 
     router.get("/", AuthMiddleware.validateJwt, controller.getUsers);
 

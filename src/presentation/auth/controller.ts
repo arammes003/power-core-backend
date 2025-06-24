@@ -11,6 +11,8 @@ import {
 } from "../../domain";
 import { UserModel } from "../../data/mongodb";
 import { CheckAuthStatus } from "../../domain/use-cases/auth/check-auth-status";
+import { uploadFile } from "../../data/supabase/supabase-upload-file";
+import { handleAvatarUpload } from "../../config/handleAvatarUpload";
 
 export class AuthController {
   // Inyeccion de dependencias
@@ -26,9 +28,21 @@ export class AuthController {
 
   registerUser = async (req: Request, res: Response) => {
     const [error, registerUserDto] = RegisterUserDto.create(req.body);
+
+    const files = req.files as
+      | { [fieldname: string]: Express.Multer.File[] }
+      | undefined;
+    const avatar = files && files["avatar"] ? files["avatar"][0] : undefined;
+
     if (error) {
       res.status(400).json({ error });
       return;
+    }
+
+    if (avatar) {
+      const avatarUrl = await handleAvatarUpload(avatar);
+
+      if (avatarUrl) registerUserDto!.avatar = avatarUrl;
     }
 
     new RegisterUser(this.authRepository)

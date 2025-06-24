@@ -11,6 +11,8 @@ interface UserToken {
     id: string;
     name: string;
     email: string;
+    avatar?: string;
+    status: boolean;
   };
 }
 
@@ -43,6 +45,8 @@ export class RegisterUser implements RegisterUserUseCase {
         id: user.id,
         name: user.name,
         email: user.email,
+        avatar: user.avatar,
+        status: user.status,
       },
     };
   }
