@@ -13,6 +13,8 @@ import { UserModel } from "../../data/mongodb";
 import { CheckAuthStatus } from "../../domain/use-cases/auth/check-auth-status";
 import { uploadFile } from "../../data/supabase/supabase-upload-file";
 import { handleAvatarUpload } from "../../config/handleAvatarUpload";
+import sharp from "sharp";
+import { convertToAvif } from "../../config/converter-avif";
 
 export class AuthController {
   // Inyeccion de dependencias
@@ -40,8 +42,9 @@ export class AuthController {
     }
 
     if (avatar) {
-      const avatarUrl = await handleAvatarUpload(avatar);
+      const avifAvatar = await convertToAvif(avatar);
 
+      const avatarUrl = await handleAvatarUpload(avifAvatar);
       if (avatarUrl) registerUserDto!.avatar = avatarUrl;
     }
 
