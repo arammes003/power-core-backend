@@ -35,7 +35,6 @@ export class LoginUser implements LoginUserUseCase {
   async execute(loginUserDto: LoginUserDto): Promise<UserToken> {
     const user = await this.authRepository.login(loginUserDto);
 
-    // Duración del token: 2h por defecto, 30d si "recordarme"
     const expiresIn = loginUserDto.rememberMe ? "30d" : "2h";
     const token = await this.signToken({ id: user.id }, expiresIn);
     if (!token) throw CustomError.internalServer("Error generando token");

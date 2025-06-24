@@ -15,15 +15,23 @@ import { UserMapper } from "../mappers/user.mapper";
 type HashFunction = (password: string) => string;
 type CompareFunction = (password: string, hashed: string) => boolean;
 
+type SignToken = (
+  payload: Object,
+  duration: SignOptions["expiresIn"]
+) => Promise<string | null>;
+
 export class AuthDatasourceImpl implements AuthDatasource {
   // Inyeccion de dependencias
   constructor(
     private readonly hashPassword: HashFunction = BcryptAdapter.hash,
-    private readonly comparePassword: CompareFunction = BcryptAdapter.compare
+    private readonly comparePassword: CompareFunction = BcryptAdapter.compare,
+    private readonly signToken: SignToken = JwtAdapter.generateToken,
+    private remember: boolean | undefined = false
   ) {}
 
   async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
-    const { email, password } = loginUserDto;
+    const { email, password, rememberMe } = loginUserDto;
+    this.remember = rememberMe;
 
     try {
       const user = await UserModel.findOne({ email: email });
@@ -82,15 +90,19 @@ export class AuthDatasourceImpl implements AuthDatasource {
   async checkAuthStatus(
     user: UserEntity
   ): Promise<{ user: UserEntity; token: string }> {
-    const token = await this.getJwtToken({ id: user.id });
+    const token = await this.getJwtToken({ id: user.id }, this.remember);
     return {
       user: user,
       token,
     };
   }
 
-  private async getJwtToken(payload: JwtPaylaod): Promise<string> {
-    const token = await JwtAdapter.generateToken(payload);
+  private async getJwtToken(
+    payload: JwtPaylaod,
+    rememberMe: boolean | undefined
+  ): Promise<string> {
+    const expiresIn = rememberMe ? "30d" : "2h";
+    const token = await JwtAdapter.generateToken(payload, expiresIn);
     return token ?? ""; // o lanza error si token es null
   }
 }
