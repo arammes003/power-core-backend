@@ -12,7 +12,6 @@ interface UserToken {
     id: string;
     name: string;
     email: string;
-    status: boolean;
     role: string[];
   };
 }
@@ -29,15 +28,20 @@ interface LoginUserUseCase {
 export class LoginUser implements LoginUserUseCase {
   constructor(
     private readonly authRepository: AuthRepository,
-    private readonly signToken: SignToken = JwtAdapter.generateToken
+    private readonly signToken: SignToken = (payload, duration) =>
+      JwtAdapter.generateToken(payload, duration)
   ) {}
 
   async execute(loginUserDto: LoginUserDto): Promise<UserToken> {
     const user = await this.authRepository.login(loginUserDto);
 
-    // Token
-    const token = await this.signToken({ id: user.id }, "2h");
-    if (!token) throw CustomError.internalServer("Error generating token");
+    // Duración del token: 2h por defecto, 30d si "recordarme"
+    const expiresIn = loginUserDto.rememberMe ? "30d" : "2h";
+    const token = await this.signToken({ id: user.id }, expiresIn);
+    if (!token) throw CustomError.internalServer("Error generando token");
+
+    console.log(loginUserDto.rememberMe);
+    console.log(expiresIn);
 
     return {
       token: token,
@@ -45,7 +49,6 @@ export class LoginUser implements LoginUserUseCase {
         id: user.id,
         name: user.name,
         email: user.email,
-        status: user.status,
         role: user.role,
       },
     };

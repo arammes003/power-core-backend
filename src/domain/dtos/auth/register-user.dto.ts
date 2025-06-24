@@ -6,14 +6,23 @@ export class RegisterUserDto {
   private constructor(
     public id: string,
     public name: string,
+    public lastName: string,
     public email: string,
     public password: string,
-    public status: boolean,
-    public avatar?: string
+    public isActive: boolean,
+    public avatar: string
   ) {}
 
   static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
-    const { id, name, email, password, avatar, status = true } = object;
+    const {
+      id,
+      name,
+      lastName = "",
+      email,
+      password,
+      isActive = true,
+      avatar = "",
+    } = object;
 
     if (!name) return ["Introduce un nombre"];
     if (!email) return ["Introduce un correo electrónico"];
@@ -30,9 +39,10 @@ export class RegisterUserDto {
       new RegisterUserDto(
         id,
         name,
+        lastName,
         email.toLowerCase(),
         password,
-        status,
+        isActive,
         avatar
       ),
     ];

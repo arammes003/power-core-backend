@@ -8,7 +8,8 @@ export class UserEntity {
     public password: string,
     public role: string[],
     public createdAt: Date,
-    public status: boolean,
+    public isActive: boolean,
+    public lastName?: string,
     public avatar?: string
   ) {}
 }

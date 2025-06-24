@@ -1,3 +1,4 @@
+import { SignOptions } from "jsonwebtoken";
 import { BcryptAdapter, JwtAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import {
@@ -31,7 +32,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       const isMatching = this.comparePassword(password, user.password);
       if (!isMatching) throw CustomError.badRequest("Credenciales incorrectas");
 
-      if (!user.status)
+      if (!user.isActive)
         throw CustomError.badRequest(
           "Cuenta inactiva. Contacta con el soporte"
         );
@@ -47,7 +48,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-    const { name, email, password, avatar } = registerUserDto;
+    const { name, lastName, email, password, avatar } = registerUserDto;
 
     try {
       // 1. Verificar email
@@ -57,6 +58,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       // 2. Creamos el usuario y hash de la contraseña
       const user = await UserModel.create({
         name: name,
+        lastName: lastName,
         email: email,
         password: this.hashPassword(password),
         createdAt: new Date(),

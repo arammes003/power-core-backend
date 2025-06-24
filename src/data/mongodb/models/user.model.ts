@@ -8,6 +8,9 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Name is required"],
   },
+  lastName: {
+    type: String,
+  },
   email: {
     type: String,
     unique: true,
@@ -25,7 +28,7 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
   },
-  status: {
+  isActive: {
     type: Boolean,
     default: true,
   },

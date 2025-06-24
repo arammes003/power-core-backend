@@ -11,8 +11,6 @@ interface UserToken {
     id: string;
     name: string;
     email: string;
-    avatar?: string;
-    status: boolean;
   };
 }
 
@@ -36,7 +34,7 @@ export class RegisterUser implements RegisterUserUseCase {
     const user = await this.authRepository.register(registerUserDto);
 
     // Token
-    const token = await this.signToken({ id: user.id }, "2h");
+    const token = await this.signToken({ id: user.id }, "30d");
     if (!token) throw CustomError.internalServer("Error generating token");
 
     return {
@@ -45,8 +43,6 @@ export class RegisterUser implements RegisterUserUseCase {
         id: user.id,
         name: user.name,
         email: user.email,
-        avatar: user.avatar,
-        status: user.status,
       },
     };
   }

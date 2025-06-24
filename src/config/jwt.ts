@@ -10,6 +10,8 @@ export class JwtAdapter {
     payload: Object,
     duration: SignOptions["expiresIn"] = "2h"
   ): Promise<string | null> {
+    console.log("[JWT] duration recibido:", duration); // <-- AÑADE ESTO
+    console.trace("[JWT] Rastro de quién llamó a generateToken:");
     return new Promise((resolve) => {
       // todo: generacion de la semilla
       jwt.sign(payload, JWT_SEED, { expiresIn: duration }, (error, token) => {
