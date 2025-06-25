@@ -1,12 +1,8 @@
-import { SignOptions } from "jsonwebtoken";
-import { BcryptAdapter, JwtAdapter } from "../../config";
+import { BcryptAdapter } from "../../config";
 import { UserModel } from "../../data/mongodb";
 import {
-  AuthDatasource,
   CreateUserDto,
   CustomError,
-  LoginUserDto,
-  RegisterUserDto,
   UserDatasource,
   UserEntity,
 } from "../../domain";
@@ -20,26 +16,45 @@ type CompareFunction = (password: string, hashed: string) => boolean;
 export class UserDatasourceImpl implements UserDatasource {
   // Inyeccion de dependencias
   constructor(
-    private readonly hashPassword: HashFunction = BcryptAdapter.hash,
-    private readonly comparePassword: CompareFunction = BcryptAdapter.compare
+    private readonly hashPassword: HashFunction = BcryptAdapter.hash
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const { name, lastName, email, password, role } = createUserDto;
+    const {
+      email,
+      birth_date,
+      name,
+      lastName,
+      phone,
+      dni,
+      password,
+      role,
+      gender,
+    } = createUserDto;
 
     try {
       // 1. Verificar email
       const exists = await UserModel.findOne({ email: email });
       if (exists) throw CustomError.badRequest("Correo electrónico en uso");
 
+      const existsDni = await UserModel.findOne({ dni: dni });
+      if (existsDni)
+        throw CustomError.badRequest(
+          "Ese DNI ya está registrado. Si no tiene acceso a su cuenta contacte con el soporte"
+        );
+
       // 2. Creamos el usuario y hash de la contraseña
       const user = await UserModel.create({
-        name: name,
-        lastName: lastName,
         email: email,
+        birth_date: birth_date,
+        name: name,
+        last_name: lastName,
         password: this.hashPassword(password),
+        phone: phone,
+        dni: dni,
+        gender: gender,
         role: role,
-        createdAt: new Date(),
+        created_at: new Date(),
       });
 
       // 3. Mapear la respuesta a nuestra entidad

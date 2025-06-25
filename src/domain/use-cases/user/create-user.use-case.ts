@@ -9,8 +9,12 @@ interface UserNew {
   user: {
     id: string;
     name: string;
-    lastName?: string;
+    last_name?: string;
     email: string;
+    phone: string;
+    birth_date: string;
+    dni: string;
+    gender: string;
     role: string[];
   };
 }
@@ -30,8 +34,12 @@ export class CreateUser implements CreateUserUseCase {
       user: {
         id: user.id,
         name: user.name,
-        lastName: user.last_name,
+        last_name: user.last_name,
         email: user.email,
+        phone: user.phone,
+        birth_date: user.birth_date,
+        dni: user.dni,
+        gender: user.dni,
         role: user.role,
       },
     };
