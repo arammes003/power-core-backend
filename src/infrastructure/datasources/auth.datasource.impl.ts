@@ -40,7 +40,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
       const isMatching = this.comparePassword(password, user.password);
       if (!isMatching) throw CustomError.badRequest("Credenciales incorrectas");
 
-      if (!user.isActive)
+      if (!user.is_active)
         throw CustomError.badRequest(
           "Cuenta inactiva. Contacta con el soporte"
         );
@@ -56,7 +56,16 @@ export class AuthDatasourceImpl implements AuthDatasource {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
-    const { name, lastName, email, password, avatar } = registerUserDto;
+    const {
+      email,
+      name,
+      last_name,
+      password,
+      phone,
+      birth_date,
+      gender,
+      avatar,
+    } = registerUserDto;
 
     try {
       // 1. Verificar email
@@ -65,11 +74,14 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
       // 2. Creamos el usuario y hash de la contraseña
       const user = await UserModel.create({
-        name: name,
-        lastName: lastName,
         email: email,
+        name: name,
+        last_name: last_name,
         password: this.hashPassword(password),
-        createdAt: new Date(),
+        phone: phone,
+        birth_date: birth_date,
+        gender: gender,
+        created_at: new Date(),
         avatar: avatar,
       });
 

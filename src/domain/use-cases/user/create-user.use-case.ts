@@ -30,7 +30,7 @@ export class CreateUser implements CreateUserUseCase {
       user: {
         id: user.id,
         name: user.name,
-        lastName: user.lastName,
+        lastName: user.last_name,
         email: user.email,
         role: user.role,
       },

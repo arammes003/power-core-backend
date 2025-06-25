@@ -3,13 +3,16 @@
 export class UserEntity {
   constructor(
     public id: string,
-    public name: string,
     public email: string,
+    public name: string,
     public password: string,
+    public phone: string,
+    public birth_date: string,
+    public gender: string,
     public role: string[],
-    public createdAt: Date,
-    public isActive: boolean,
-    public lastName?: string,
+    public created_at: Date,
+    public is_active: boolean,
+    public last_name?: string,
     public avatar?: string
   ) {}
 }

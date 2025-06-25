@@ -35,7 +35,7 @@ export class RegisterUser implements RegisterUserUseCase {
 
     // Token
     const token = await this.signToken({ id: user.id }, "30d");
-    if (!token) throw CustomError.internalServer("Error generating token");
+    if (!token) throw CustomError.internalServer("Error generando el token");
 
     return {
       token: token,

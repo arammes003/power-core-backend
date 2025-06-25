@@ -8,11 +8,15 @@ export class UserMapper {
       id,
       _id,
       name,
+      last_name,
       email,
       password,
+      phone,
+      birth_date,
+      gender,
       role,
-      createdAt,
-      isActive,
+      created_at,
+      is_active,
       avatar,
     } = object;
 
@@ -24,16 +28,26 @@ export class UserMapper {
 
     if (!password) throw CustomError.badRequest("Missing password");
 
+    if (!phone) throw CustomError.badRequest("Missing phone");
+
+    if (!birth_date) throw CustomError.badRequest("Missing birth date");
+
+    if (!gender) throw CustomError.badRequest("Missing gender");
+
     if (!role) throw CustomError.badRequest("Missing role");
 
     return new UserEntity(
       _id || id,
-      name,
       email,
+      name,
+      last_name,
       password,
+      phone,
+      gender,
+      birth_date,
       role,
-      createdAt,
-      isActive,
+      created_at,
+      is_active,
       avatar
     );
   }
