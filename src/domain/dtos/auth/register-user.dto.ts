@@ -10,6 +10,7 @@ export class RegisterUserDto {
     public last_name: string,
     public password: string,
     public phone: string,
+    public dni: string,
     public birth_date: Date,
     public gender: string,
     public created_at: string,
@@ -25,6 +26,7 @@ export class RegisterUserDto {
       lastName = "",
       password,
       phone,
+      dni,
       birthDate,
       gender,
       created_at = new Date(),
@@ -48,6 +50,8 @@ export class RegisterUserDto {
     if (!Validators.phone.test(phone))
       return ["El número de teléfono no es válido"];
 
+    if (!dni) return ["Introduce un Documento Nacional de Identidad"];
+
     if (!birthDate) return ["Introduce tu fecha de nacimiento"];
     const birthDateValue = new Date(birthDate);
     if (!Validators.birthDay(birthDateValue))
@@ -64,6 +68,7 @@ export class RegisterUserDto {
         lastName,
         password,
         phone,
+        dni,
         birthDate,
         gender,
         created_at,

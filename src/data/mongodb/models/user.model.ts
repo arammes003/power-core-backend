@@ -24,6 +24,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Phone is required"],
   },
+  dni: {
+    type: String,
+    required: [true, "DNI is required"],
+    unique: true,
+  },
   birth_date: {
     type: Date,
     required: [true, "Birth Date is required"],

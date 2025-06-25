@@ -12,6 +12,7 @@ export class UserMapper {
       email,
       password,
       phone,
+      dni,
       birth_date,
       gender,
       role,
@@ -30,6 +31,8 @@ export class UserMapper {
 
     if (!phone) throw CustomError.badRequest("Missing phone");
 
+    if (!dni) throw CustomError.badRequest("Missing DNI");
+
     if (!birth_date) throw CustomError.badRequest("Missing birth date");
 
     if (!gender) throw CustomError.badRequest("Missing gender");
@@ -43,6 +46,7 @@ export class UserMapper {
       last_name,
       password,
       phone,
+      dni,
       gender,
       birth_date,
       role,
