@@ -5,6 +5,7 @@ import { Router } from "express";
 
 // Import rutas
 import { AuthRoutes } from "./auth/routes";
+import { UserRoutes } from "./user/routes";
 
 // Exportamos las rutas de la aplicacion
 export class AppRoutes {
@@ -13,6 +14,9 @@ export class AppRoutes {
 
     // Definimos las rutas principales
     router.use("/api/auth", AuthRoutes.routes);
+
+    // Rutas usuarios
+    router.use("/api/users", UserRoutes.routes);
 
     return router;
   }
