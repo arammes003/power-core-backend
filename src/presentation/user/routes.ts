@@ -18,6 +18,13 @@ export class UserRoutes {
       AuthMiddleware.validateJwt,
       controller.createUser
     );
+
+    router.delete(
+      "/delete-user/:_id",
+      AuthMiddleware.validateJwt,
+      controller.deleteuser
+    );
+
     return router;
   }
 }

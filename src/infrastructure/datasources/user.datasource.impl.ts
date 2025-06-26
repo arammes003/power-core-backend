@@ -3,15 +3,14 @@ import { UserModel } from "../../data/mongodb";
 import {
   CreateUserDto,
   CustomError,
+  DeleteUserDto,
   UserDatasource,
   UserEntity,
 } from "../../domain";
-import { JwtPaylaod } from "../../domain/entities/jwt-payload.interface";
 import { UserMapper } from "../mappers/user.mapper";
 
 // Creacion de tipos para quitar dependencias ocultas
 type HashFunction = (password: string) => string;
-type CompareFunction = (password: string, hashed: string) => boolean;
 
 export class UserDatasourceImpl implements UserDatasource {
   // Inyeccion de dependencias
@@ -66,6 +65,25 @@ export class UserDatasourceImpl implements UserDatasource {
         throw error;
       }
 
+      throw CustomError.internalServer();
+    }
+  }
+
+  async deleteUser(deleteUserDto: DeleteUserDto): Promise<void> {
+    const { _id } = deleteUserDto;
+
+    try {
+      const user = await UserModel.findByIdAndDelete({ _id });
+      if (!user)
+        throw CustomError.badRequest(
+          "El usuario que intentas borrar no existe"
+        );
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+
+      console.error(error);
       throw CustomError.internalServer();
     }
   }

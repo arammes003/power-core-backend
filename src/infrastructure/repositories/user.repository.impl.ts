@@ -1,5 +1,6 @@
 import {
   CreateUserDto,
+  DeleteUserDto,
   UserDatasource,
   UserEntity,
   UserRepository,
@@ -10,5 +11,9 @@ export class UserRepositoryImpl implements UserRepository {
 
   createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     return this.userDatesource.createUser(createUserDto);
+  }
+
+  deleteUser(deleteUserDto: DeleteUserDto): Promise<void> {
+    return this.userDatesource.deleteUser(deleteUserDto);
   }
 }

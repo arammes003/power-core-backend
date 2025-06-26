@@ -1,7 +1,5 @@
 // Fichero que tiene los casos de uso de registro
-import { RegisterUserDto } from "../../dtos/auth/register-user.dto";
-import { AuthRepository } from "../../repositories/auth.repository";
-import { CustomError } from "../../errors/custom.error";
+
 import { UserRepository } from "../../repositories/user.repository";
 import { CreateUserDto } from "../../dtos/user/create-user.dto";
 

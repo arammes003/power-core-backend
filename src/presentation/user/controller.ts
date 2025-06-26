@@ -5,6 +5,8 @@ import {
   CreateUser,
   CreateUserDto,
   CustomError,
+  DeleteUser,
+  DeleteUserDto,
   LoginUser,
   LoginUserDto,
   RegisterUser,
@@ -36,6 +38,23 @@ export class UserController {
     new CreateUser(this.userRepository)
       .execute(createUserDto!)
       .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
+  };
+
+  deleteuser = async (req: Request, res: Response) => {
+    const [error, deleteUserDto] = DeleteUserDto.delete(req.params);
+    console.log(deleteUserDto);
+
+    if (error) {
+      res.status(400).json({ error });
+      return;
+    }
+
+    new DeleteUser(this.userRepository)
+      .execute(deleteUserDto!)
+      .then((data) =>
+        res.json({ data, message: "Usuario eliminado correctamente" })
+      )
       .catch((error) => this.handleError(error, res));
   };
 }
