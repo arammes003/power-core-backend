@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "tsnd --respawn --clear --env-file=.env src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node --env-file=.env dist/app.js"
+    "start": "npm run build && node --env-file=.env dist/app.js",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
