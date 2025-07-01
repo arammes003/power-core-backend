@@ -17,35 +17,17 @@ export class Server {
     this.routes = routes;
   }
 
-  // async start() {
-  //   // Middleware para serializar los datos
-  //   this.app.use(express.json());
-  //   this.app.use(express.urlencoded({ extended: true })); //x-www-form-urlencoded
-
-  //   this.app.use(cors({ origin: "http://localhost:4200", credentials: true }));
-
-  //   // Usamos las rutas definidas
-  //   this.app.use(this.routes);
-
-  //   // Escuchamos el puerto
-  //   this.app.listen(this.port, () => {
-  //     console.log(`Server running on port ${this.port}`);
-  //   });
-  // }
-  // Nuevo método para configuración sin listen
-  configure() {
+  async start() {
     // Middleware para serializar los datos
     this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.urlencoded({ extended: true })); //x-www-form-urlencoded
 
     this.app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 
     // Usamos las rutas definidas
     this.app.use(this.routes);
-  }
 
-  async start() {
-    this.configure();
+    // Escuchamos el puerto
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${this.port}`);
     });
