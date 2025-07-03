@@ -14,6 +14,7 @@ export class CreateClubDto {
       phone: string;
       email: string;
     },
+    public admin: Types.ObjectId,
     public membership_price: number
   ) {}
 
@@ -27,6 +28,7 @@ export class CreateClubDto {
       city_name,
       phone,
       email,
+      admin,
       membership_price,
     } = object;
 
@@ -37,6 +39,7 @@ export class CreateClubDto {
     if (!city_name) return ["Introduce la ciudad del club"];
     if (!phone) return ["Introduce el teléfono de contacto del club"];
     if (!email) return ["Introduce el correo electrónico de contacto del club"];
+    if (!admin) return ["Se necesita al menos un administrador del club"];
     if (!membership_price) return ["Introduce el precio de la inscripción"];
 
     if (!Validators.phone.test(phone))
@@ -58,6 +61,7 @@ export class CreateClubDto {
         prov_name,
         city_name,
         contact_info,
+        admin,
         membership_price
       ),
     ];

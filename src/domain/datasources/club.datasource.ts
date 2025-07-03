@@ -1,12 +1,9 @@
 //Reglas de negocio del club
 
-import { CreateUserDto } from "../dtos/user/create-user.dto";
-import { DeleteUserDto } from "../dtos/user/delete-user.dto";
-import { UserEntity } from "../entities/user.entity";
+import { CreateClubDto } from "../dtos/club/create-club.dto";
+import { ClubEntity } from "../entities/club.entity";
 
-export abstract class UserDatasource {
+export abstract class ClubDatasource {
   // Definimos reglas
-  abstract createUser(createUserDto: CreateUserDto): Promise<UserEntity>;
-
-  abstract deleteUser(deleteUserDto: DeleteUserDto): Promise<void>;
+  abstract createClub(createClubDto: CreateClubDto): Promise<ClubEntity>;
 }
