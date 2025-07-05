@@ -48,14 +48,18 @@ const clubSchema = new Schema({
     required: [true, "Admin is required"],
     ref: "Users",
   },
-  coaches: {
-    type: Schema.Types.ObjectId,
-    ref: "Coaches",
-  },
-  athletes: {
-    type: Schema.Types.ObjectId,
-    ref: "Athletes",
-  },
+  coaches: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Coaches",
+    },
+  ],
+  athletes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Athletes",
+    },
+  ],
   membership_price: {
     type: Number,
     required: [true, "Membership price is required"],

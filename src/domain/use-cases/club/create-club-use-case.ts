@@ -2,7 +2,6 @@
 
 import { Types } from "mongoose";
 import { CreateClubDto } from "../../dtos/club/create-club.dto";
-import { CreateUserDto } from "../../dtos/user/create-user.dto";
 import { ClubRepository } from "../../repositories/club.repository";
 
 interface SocialMedia {

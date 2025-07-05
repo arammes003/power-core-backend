@@ -2,11 +2,6 @@ import {
   ClubDatasource,
   ClubEntity,
   ClubRepository,
-  CreateUserDto,
-  DeleteUserDto,
-  UserDatasource,
-  UserEntity,
-  UserRepository,
 } from "../../domain";
 import { CreateClubDto } from "../../domain/dtos/club/create-club.dto";
 

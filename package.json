@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --clear --env-file=.env src/app.ts",
+    "dev": "ts-node-dev --no-warnings --respawn --clear --env-file=.env src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "node dist/app.js"
+    "start": "node --no-warnings dist/app.js"
   },
   "keywords": [],
   "author": "",

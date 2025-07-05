@@ -3,6 +3,19 @@
 import { Types } from "mongoose";
 import { Validators } from "../../../config";
 
+interface SocialMedia {
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+}
+
+interface ContactInfo {
+  phone: string;
+  email: string;
+  website?: string;
+  social_media?: SocialMedia;
+}
+
 export class CreateClubDto {
   constructor(
     public name: string,
@@ -10,12 +23,13 @@ export class CreateClubDto {
     public ac_name: string,
     public prov_name: string,
     public city_name: string,
-    public contact_info: {
-      phone: string;
-      email: string;
-    },
-    public admin: Types.ObjectId,
-    public membership_price: number
+    public contact_info: ContactInfo,
+    public admin: Types.ObjectId | string,
+    public coaches: (Types.ObjectId | string)[],
+    public athletes: (Types.ObjectId | string)[],
+    public membership_price: number,
+    public description: string,
+    public created_at: string
   ) {}
 
   // Método que crea el objeto DTO
@@ -30,6 +44,14 @@ export class CreateClubDto {
       email,
       admin,
       membership_price,
+      created_at = new Date(),
+      instagram = "",
+      facebook = "",
+      youtube = "",
+      website = "",
+      description = "",
+      athletes = [],
+      coaches = [],
     } = object;
 
     if (!name) return ["Introduce el nombre del club"];
@@ -50,6 +72,12 @@ export class CreateClubDto {
     const contact_info = {
       phone,
       email,
+      website,
+      social_media: {
+        instagram,
+        facebook,
+        youtube,
+      },
     };
 
     return [
@@ -62,7 +90,11 @@ export class CreateClubDto {
         city_name,
         contact_info,
         admin,
-        membership_price
+        coaches,
+        athletes,
+        membership_price,
+        description,
+        created_at
       ),
     ];
   }

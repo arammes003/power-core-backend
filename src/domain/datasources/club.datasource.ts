@@ -1,4 +1,4 @@
-//Reglas de negocio del club
+//Reglas de negocio del club 
 
 import { CreateClubDto } from "../dtos/club/create-club.dto";
 import { ClubEntity } from "../entities/club.entity";
